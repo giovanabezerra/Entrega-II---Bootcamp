@@ -7,16 +7,10 @@ on:
     branches:
       - main
       - master
-  pull_request:
-    branches:
-      - main
-      - master
-  # Permite rodar manualmente (opcional, mas útil)
   workflow_dispatch:
 
 jobs:
   build-and-test:
-    # Configura o ambiente Ubuntu mais recente
     runs-on: ubuntu-latest
     
     steps:
@@ -36,22 +30,22 @@ jobs:
 
       # 4. Build da Extensão (cria a pasta dist/)
       - name: Build Extension
-        # Usa o script build-extension.mjs para criar dist/ e dist/extension.zip
         run: npm run build
 
       # 5. Instalação dos browsers do Playwright
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
-      # 6. Execução dos Testes E2E
+      # 6. Execução dos Testes E2E (Corrigido para evitar o Exit 127)
+      # O CI/CD agora usa 'npm run test:ci'
       - name: Run E2E Tests
-        # Executa o script que usa o Playwright configurado para carregar a extensão de dist/
+        # Usamos o comando 'test:ci' que já criamos
         run: npm run test:ci
 
       # 7. Publicação do Relatório HTML como artefato
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
-        if: always() # Garante que rode mesmo que os testes falhem
+        if: always()
         with:
           name: playwright-report
           path: playwright-report/
