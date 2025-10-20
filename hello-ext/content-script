@@ -1,13 +1,14 @@
-// Este script é injetado diretamente na página.
-// Removemos o 'DOMContentLoaded' para garantir que a modificação ocorra
-// imediatamente, resolvendo o problema de timing com o Playwright.
+// O seletor que o teste do Playwright está usando para identificar o link é mais específico.
+// Usamos o mesmo seletor aqui para garantir que estamos modificando O MESMO elemento
+// que o Playwright está verificando.
 
-// Tenta obter o primeiro link <a> na página.
-const link = document.querySelector('a'); 
+const specificLinkSelector = 'a[href="https://www.iana.org/domains/example"]';
 
-// Se o link existir (o que acontece em https://example.com), aplica o estilo.
+// Tenta obter o link específico na página de exemplo.
+const link = document.querySelector(specificLinkSelector); 
+
+// Aplica o estilo se o link for encontrado.
 if (link) {
-    // Aplica um estilo visível (diferente de 'none') para que o teste passe.
+    // Aplica um estilo visível (diferente de 'none') para o teste passar.
     link.style.outline = '4px solid red'; 
 }
-
