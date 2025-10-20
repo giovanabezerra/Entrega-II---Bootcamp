@@ -1,0 +1,16 @@
+{
+  "name": "bootcamp",
+  "version": "1.0.0",
+  "description": "Projeto de testes do bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build-extension.mjs",
+    "test:e2e": "playwright test",
+    "test": "npm run build && npm run test:e2e"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.56.1",
+    "archiver": "^7.0.1",
+    "fs-extra": "^11.3.2"
+  }
+}

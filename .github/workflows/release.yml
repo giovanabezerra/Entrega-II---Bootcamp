@@ -1,0 +1,39 @@
+# Workflow para criar Releases automáticas no GitHub
+name: Release Extension ZIP
+
+# Gatilhos: Roda apenas quando uma nova tag é criada (ex: v1.0.0)
+on:
+  push:
+    tags:
+      - 'v*' # Aciona para qualquer tag que comece com 'v' (ex: v1.0.0)
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout do código
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Baixa o artefato ZIP (que foi criado e salvo pelo workflow CI)
+      - name: Download Extension ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-zip-artifact
+          path: ./release-files/
+
+      # 3. Cria a Release no GitHub
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Usa o nome da tag (ex: v1.0.0) como título da release
+          name: Release ${{ github.ref_name }}
+          draft: false # Publica a release imediatamente
+          prerelease: false
+          # Anexa o arquivo extension.zip que foi baixado na etapa 2
+          files: release-files/extension.zip
+          

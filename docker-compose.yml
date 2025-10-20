@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  # Nome do serviço que vamos usar para rodar os testes
+  playwright:
+    # Usa a imagem que será construída a partir do Dockerfile acima
+    build: .
+    # Monta o diretório atual do seu projeto dentro do container (/app)
+    # Isso permite que as alterações no código local sejam refletidas no container
+    volumes:
+      - .:/app
+    # Define o comando de entrada: roda o script de build e o comando de teste para CI
+    entrypoint: ["npm", "run", "test:ci"]
+    # Garante que o container tenha privilégios suficientes para rodar browsers headless
+    security_opt:
+      - seccomp:unconfined
+      
