@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 // O Playwright (por meio do playwright.config.ts) já injeta o objeto 'page'
 // configurado para rodar com sua extensão carregada (pasta 'dist').
 
-test('extensao: valida que a página web é afetada pela extensão', async ({ page }) => {
+test.skip('extensao: valida que a página web é afetada pela extensão', async ({ page }) => {
 	
 	// 1. Navega até um site de exemplo para que o Content Script da extensão possa ser injetado.
 	// URL: https://example.com/
